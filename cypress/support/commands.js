@@ -44,8 +44,8 @@ Cypress.Commands.add('Login' , (domain_name, email, password) =>{
 //     cy.get('.btn').click({timeout:5000})
 
 // })
-Cypress.Commands.add('Add_products', (p_name , barcode, supplier_code, custome_field)=>{
-    cy.get('li.show > .dropdown-toggle').click()
+Cypress.Commands.add('Add_products', (p_name , barcode, supplier_code, custome_field , product_cost)=>{
+    cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()
     cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click()
     cy.get('.module-actions > .btn-primary').click()
 
@@ -53,8 +53,21 @@ Cypress.Commands.add('Add_products', (p_name , barcode, supplier_code, custome_f
     cy.get('.col-md-8 > :nth-child(1) > .pvr-box > .row > :nth-child(2) > .form-float > .controls > label').type(barcode) //barcode
     cy.get('.col-md-8 > :nth-child(1) > .pvr-box > .row > :nth-child(3) > .form-float > .controls > label').type(supplier_code) // supplier code
     cy.get(':nth-child(4) > .form-float > .controls > label').type(custome_field)
-    
+    cy.get('div.radio > :nth-child(1) > .option-input').check().should('have.value', '0')  // no variants selected
+    cy.log(' Simple product, no variants ')
 
-
+    cy.get('#chl_type').check().should('be.enabled') // show on POS check
+    cy.get('.pvr-box > .row > :nth-child(1) > label').should('have.text', '\n                                Point Of Sale')
+    cy.get('#clearform').click() // select outlet
+     // cy.xpath("(//input[@name='outlet_ids[]'])[1]").check().should('be.enabled') // select outlet
+    cy.get('.col-6 > label').click()
+   // cy.get('.col-6 > label').should('have.text', '\n                                        \n                                        Lhr Store\n') //
+    cy.get('#sel_outlet').click() // save  sittings
+    cy.get('.col-sm-12 > label > .option-input').check().should('be.enabled') // show on ecommerce checkbox
+    //cy.get('.col-sm-12 > label').should('have.text', '\n  Ecommerce')
+    cy.get(':nth-child(7) > .slider').click()
+    cy.get(':nth-child(9) > .slider').click()
+    cy.get('#your_cost').type(product_cost)
+    cy.get('.button-group > .btn-primary').click() //save sitting
 
 })

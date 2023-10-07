@@ -1,0 +1,73 @@
+[
+    {
+      "p_name": "Product 1",
+      "barcode": "123456789",
+      "supplier_code": "SUP001",
+      "custom_field": "Custom 1",
+      "product_cost": 19.99
+    },
+    {
+      "p_name": "Product 2",
+      "barcode": "234567890",
+      "supplier_code": "SUP002",
+      "custom_field": "Custom 2",
+      "product_cost": 29.99
+    },
+    {
+      "p_name": "Product 3",
+      "barcode": "345678901",
+      "supplier_code": "SUP003",
+      "custom_field": "Custom 3",
+      "product_cost": 14.99
+    },
+    {
+      "p_name": "Product 4",
+      "barcode": "456789012",
+      "supplier_code": "SUP004",
+      "custom_field": "Custom 4",
+      "product_cost": 39.99
+    },
+    {
+      "p_name": "Product 5",
+      "barcode": "567890123",
+      "supplier_code": "SUP005",
+      "custom_field": "Custom 5",
+      "product_cost": 24.99
+    },
+    {
+      "p_name": "Product 6",
+      "barcode": "678901234",
+      "supplier_code": "SUP006",
+      "custom_field": "Custom 6",
+      "product_cost": 49.99
+    },
+    {
+      "p_name": "Product 7",
+      "barcode": "789012345",
+      "supplier_code": "SUP007",
+      "custom_field": "Custom 7",
+      "product_cost": 9.99
+    },
+    {
+      "p_name": "Product 8",
+      "barcode": "890123456",
+      "supplier_code": "SUP008",
+      "custom_field": "Custom 8",
+      "product_cost": 34.99
+    },
+    {
+      "p_name": "Product 9",
+      "barcode": "901234567",
+      "supplier_code": "SUP009",
+      "custom_field": "Custom 9",
+      "product_cost": 19.99
+    },
+    {
+      "p_name": "Product 10",
+      "barcode": "012345678",
+      "supplier_code": "SUP010",
+      "custom_field": "Custom 10",
+      "product_cost": 59.99
+    }
+  ]
+  
