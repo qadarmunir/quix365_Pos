@@ -21,6 +21,7 @@ describe('Add product testcases', ()=>{
             cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()     // click on products dropdown
             cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click({timeout:5000})   // select product drop
             cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click()
+            cy.get('#Product-WygqPGELd3Mb698jZX1n > .btn').click()
             cy.get('.cancel').click()
             cy.get('p[style="display: block;"]').should('have.text', 'Your record has not been deleted  ')
             cy.get('.confirm').click()
