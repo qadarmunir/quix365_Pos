@@ -26,8 +26,8 @@
 Cypress.Commands.add('Login' , (domain_name, email, password) =>{
     cy.get(':nth-child(5) > .nav-link').click({ multiple: true },{timeout:5000}) //click on website
     cy.get('#site_url').type(domain_name)
-    cy.wait(5000)
-    cy.get('#btnSubmit').click({timeout:5000}) //login btn
+    cy.wait(7000)
+    cy.get('#btnSubmit').click({timeout:8000}) //login btn
     cy.get('#email').type(email)
     cy.get('#password').type(password)
     cy.get('.btn').click({timeout:5000})
@@ -44,7 +44,7 @@ Cypress.Commands.add('Login' , (domain_name, email, password) =>{
 //     cy.get('.btn').click({timeout:5000})
 
 // })
-Cypress.Commands.add('Add_products', (p_name , barcode, supplier_code, custome_field , product_cost)=>{
+Cypress.Commands.add('Add_Products_DATA', (p_name , barcode, supplier_code, custome_field , product_cost)=>{
     cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()
     cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click()
     cy.get('.module-actions > .btn-primary').click()

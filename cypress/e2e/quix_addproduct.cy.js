@@ -8,7 +8,7 @@ describe('Add_products', () => {
   it('add 10 products', () => {
     cy.fixture('addproducts').then((products_data) => {
       products_data.forEach((product) => {
-        cy.Add_products(
+        cy.Add_Products_DATA(
           product.p_name,
           product.barcode,
           product.supplier_code,
