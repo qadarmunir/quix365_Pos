@@ -25,8 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add('Login' , (domain_name, email, password) =>{
     cy.get(':nth-child(5) > .nav-link').click({ multiple: true },{timeout:5000}) //click on website
-    cy.get('#site_url').type(domain_name)
-    cy.wait(7000)
+    cy.get('#site_url').type(domain_name, {timeout:8000})
+    //cy.wait(7000)
     cy.get('#btnSubmit').click({timeout:8000}) //login btn
     cy.get('#email').type(email)
     cy.get('#password').type(password)
@@ -45,9 +45,6 @@ Cypress.Commands.add('Login' , (domain_name, email, password) =>{
 
 // })
 Cypress.Commands.add('Add_Products_DATA', (p_name , barcode, supplier_code, custome_field , product_cost)=>{
-    cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()
-    cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click()
-    cy.get('.module-actions > .btn-primary').click()
 
     cy.get('.controls > .__mandatory_aestrick_label').type(p_name) //product name
     cy.get('.col-md-8 > :nth-child(1) > .pvr-box > .row > :nth-child(2) > .form-float > .controls > label').type(barcode) //barcode
@@ -68,6 +65,9 @@ Cypress.Commands.add('Add_Products_DATA', (p_name , barcode, supplier_code, cust
     cy.get(':nth-child(7) > .slider').click()
     cy.get(':nth-child(9) > .slider').click()
     cy.get('#your_cost').type(product_cost)
-    cy.get('.button-group > .btn-primary').click() //save sitting
+    //cy.get('.button-group > .btn-primary').click() //save sitting
 
-})
+});
+// cypress.Commands.add('product_with_variant', ()=>{
+
+// })
