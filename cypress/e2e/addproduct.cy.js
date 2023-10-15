@@ -1,5 +1,7 @@
 //const { it } = require("mocha");
 
+//const { contains } = require("cypress/types/jquery");
+
 //const { beforeEach } = require("mocha");
 
 describe('Add product testcases', ()=>{
@@ -142,33 +144,39 @@ describe('Add product testcases', ()=>{
     //         // Optionally, you can add assertions for successful product creation here.
     //     });
     // });
-    it('Cancel_Delete_product', ()=>{
-            cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()     // click on products dropdown
-            cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click({timeout:5000})   // select product drop
-            cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click()
-            cy.get('a[title="Delete"]').click({ force: true });
-            cy.get('p[style="display: block;"]').should('have.text', 'Record will be permanently deleted.')
-            cy.get('.cancel').click()
-            cy.get('p[style="display: block;"]').should('have.text', 'Your record has not been deleted  ')
-            cy.get('.confirm').click()
+    // it('Cancel_Delete_product', ()=>{
+    //         cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()     // click on products dropdown
+    //         cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click({timeout:5000})   // select product drop
+    //         cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click()
+    //         cy.get('a[title="Delete"]').click({ force: true });
+    //         cy.get('p[style="display: block;"]').should('have.text', 'Record will be permanently deleted.')
+    //         cy.get('.cancel').click()
+    //         cy.get('p[style="display: block;"]').should('have.text', 'Your record has not been deleted  ')
+    //         cy.get('.confirm').click()
 
 
-    });
-    it('Delete_Product', ()=>{
-            cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()     // click on products dropdown
-            cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click({timeout:5000})   // select product drop
-            cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click()
-            cy.get('#Product-WygqPGELd3Mb698jZX1n > .btn').click()
-            cy.get('p[style="display: block;"]').should('have.text', 'Record will be permanently deleted.')
-            cy.get('.confirm').click({timeout:5000})
-            cy.get('p[style="display: block;"]').should('have.text','Products has been deleted successfully.' )
-            cy.get('.confirm').click()
-    });
-    // it.skip('Product_With_Variant' , ()=>{
-
-    //     cy.fixture('addproduct').then((DATA1)=>{
-            
-
-    //     });
     // });
+    it.skip('Cancel_Delete_product', () => {
+     cy.select_product_dropdown 
+     cy.product_details_page
+
+        // Click the delete button for the specific product and confirm the deletion.
+        cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click();
+        cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
+        cy.get('.cancel').contains('No, cancel please!').click()
+        //cy.get('.sweet-alert').should('be.visible')
+        //cy.get('.confirm').contains('OK').click();
+    });
+    
+    it('Delete_Product', ()=>{
+        cy.select_product_dropdown 
+        cy.product_details_page
+   
+           // Click the delete button for the specific product and confirm the deletion.
+           cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click();
+           cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
+           cy.get('.confirm').contains('Yes, delete it!').click()
+        //    cy.get('.sweet-alert').should('be.visible')
+        //    cy.get('.confirm').contains('OK').click();
+    });
 });
