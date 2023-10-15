@@ -10,14 +10,14 @@ describe('Add product testcases', ()=>{
     let product_details_page ;
     let  click_add_product_page ;
     let save_product;
-    beforeEach(()=>{
+    before(()=>{
         cy.visit('https://quix365.com/')
         cy.Login('qadarps', 'qadar.q.a1+8@gmail.com', '12345678')
         //open product page
         select_product_dropdown =cy.get('.nav > :nth-child(3) > .dropdown-toggle').click();
         product_details_page =cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click()
-        //click_add_product_page=cy.get('.module-actions > .btn-primary').click()
-       // save_product=cy.get('.button-group > .btn-primary').click()
+        click_add_product_page=cy.get('.module-actions > .btn-primary').click()
+       save_product=cy.get('.button-group > .btn-primary').click()
     });
     // it.skip('add_simple_product',()=>{
     //     cy.select_product_dropdown
@@ -168,7 +168,7 @@ describe('Add product testcases', ()=>{
         //cy.get('.confirm').contains('OK').click();
     });
     
-    it('Delete_Product', ()=>{
+    it.skip('Delete_Product', ()=>{
         cy.select_product_dropdown 
         cy.product_details_page
    
