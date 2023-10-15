@@ -2,6 +2,8 @@
 
 //const { contains } = require("cypress/types/jquery");
 
+//const { contains } = require("cypress/types/jquery");
+
 //const { beforeEach } = require("mocha");
 
 describe('Add product testcases', ()=>{
@@ -17,7 +19,7 @@ describe('Add product testcases', ()=>{
         select_product_dropdown =cy.get('.nav > :nth-child(3) > .dropdown-toggle').click();
         product_details_page =cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click()
         click_add_product_page=cy.get('.module-actions > .btn-primary').click()
-       save_product=cy.get('.button-group > .btn-primary').click()
+        save_product=cy.get('.button-group > .btn-primary').click()
     });
     // it.skip('add_simple_product',()=>{
     //     cy.select_product_dropdown
@@ -156,27 +158,56 @@ describe('Add product testcases', ()=>{
 
 
     // });
-    it.skip('Cancel_Delete_product', () => {
-     cy.select_product_dropdown 
-     cy.product_details_page
+    // it.skip('Cancel_Delete_product', () => {
+    //  cy.select_product_dropdown 
+    //  cy.product_details_page
 
-        // Click the delete button for the specific product and confirm the deletion.
-        cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click();
-        cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
-        cy.get('.cancel').contains('No, cancel please!').click()
-        //cy.get('.sweet-alert').should('be.visible')
-        //cy.get('.confirm').contains('OK').click();
-    });
+    //     // Click the delete button for the specific product and confirm the deletion.
+    //     cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click();
+    //     cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
+    //     cy.get('.cancel').contains('No, cancel please!').click()
+    //     //cy.get('.sweet-alert').should('be.visible')
+    //     //cy.get('.confirm').contains('OK').click();
+    // });
     
-    it.skip('Delete_Product', ()=>{
-        cy.select_product_dropdown 
-        cy.product_details_page
+    // it.skip('Delete_Product', ()=>{
+    //     cy.select_product_dropdown 
+    //     cy.product_details_page
    
-           // Click the delete button for the specific product and confirm the deletion.
-           cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click();
-           cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
-           cy.get('.confirm').contains('Yes, delete it!').click()
-        //    cy.get('.sweet-alert').should('be.visible')
-        //    cy.get('.confirm').contains('OK').click();
+    //        // Click the delete button for the specific product and confirm the deletion.
+    //        cy.get(':nth-child(2) > :nth-child(8) > .dropdown > .dropdown-toggle > .material-icons').click();
+    //        cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
+    //        cy.get('.confirm').contains('Yes, delete it!').click()
+    //     //    cy.get('.sweet-alert').should('be.visible')
+    //     //    cy.get('.confirm').contains('OK').click();
+    // });
+    it('add_product_with variants', ()=>{
+        cy.select_product_dropdown
+        cy.product_details_page
+        cy.click_add_product_page
+        cy.save_product
+        cy.get('#error_product_name').should('have.text', '*Please enter a product name.')   // product_without_name assertation
+        cy.fixture('addproduct').then((DATA_3)=>{
+         cy.Add_Products_DATA(
+            DATA_3.p_name,
+            DATA_3.barcode,
+            DATA_3.supplier_code,          
+            DATA_3.custom_field,
+            DATA_3.product_cost
+            )
+             // Ensure that the radio button is selected and then click it
+          cy.get('div.radio > :nth-child(2)').should('contain','product with variants')
+                cy.get(':nth-child(2) > .option-input').check()
+                //cy.save_product
+                cy.get('.button-group > .btn-primary').click() // save btn manullay
+                cy.get('.sweet-alert').should('contain','Please add variant options!')
+                cy.get('.confirm').click()
+
+                cy.get('#showvarients').click() //add variants button
+                cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').should('have.text','Adult')
+                cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').select('Adult');
+
+        });
+    
     });
 });
