@@ -181,11 +181,108 @@ describe('Add product testcases', ()=>{
     //     //    cy.get('.sweet-alert').should('be.visible')
     //     //    cy.get('.confirm').contains('OK').click();
     // });
+    // it('add_product_with_variants', () => {
+    //     cy.select_product_dropdown;
+    //     cy.product_details_page;
+    //     cy.click_add_product_page;
+    //     cy.save_product;
+      
+    //     // Assert that a product name error message is displayed
+    //     cy.get('#error_product_name').should('have.text', '*Please enter a product name.');
+      
+    //     cy.fixture('addproduct').then((DATA_3) => {
+    //       // Fill in product data
+    //       cy.Add_Products_DATA(
+    //         DATA_3.p_name,
+    //         DATA_3.barcode,
+    //         DATA_3.supplier_code,
+    //         DATA_3.custom_field,
+    //         DATA_3.product_cost
+    //       );
+      
+    //       // Add product variants
+    //       cy.add_variants();
+      
+    //       // Assert and interact with the first variant form
+    //       cy.get('#variants_validation_error0').should('have.text', '*Please enter your cost.');
+    //       cy.get('.button-group > .btn-primary').click(); // Manually click save button
+    //       cy.get('#varient_your_cost0').type('0');
+    //       cy.get('.button-group > .btn-primary').click(); // Manually click save button
+      
+    //       cy.get('#variants_validation_error0').should('have text', '*Your cost must be greater than 0.');
+    //       cy.get('#varient_your_cost0').type('20');
+    //       cy.get('.button-group > .btn-primary').click(); // Manually click save button
+      
+    //       // Assert and interact with the second variant form
+    //       cy.get('#variants_validation_error1').should('have.text', '*Please enter your cost.');
+    //       cy.get('.button-group > .btn-primary').click(); // Manually click save button
+    //       cy.get('#varient_your_cost1').type('0');
+    //       cy.get('.button-group > .btn-primary').click(); // Manually click save button
+    //       cy.get('#variants_validation_error1').should('have.text', '*Your cost must be greater than 0.');
+    //       cy.get('#varient_your_cost1').type('30');
+    //       cy.get('.button-group > .btn-primary').click(); // Manually click save button
+      
+    //       // Handle duplicate product name error and refill the form with a unique name
+    //       cy.get('#error_product_name').should('have.text', 'The product name has already been taken.');
+    //       cy.get('#product_name').clear();
+    //       const uniqueProductName = `Product ${Date.now()}`;
+    //       cy.get('#product_name').type(uniqueProductName);
+    //       cy.add_variants();
+      
+    //       // Interact with the first variant form
+    //       cy.get(':nth-child(2) > td > span > #clearform').click();
+    //       cy.get('.border').should('contain', 'Inventory tracking is off').then((inventory_enable_btn) => {
+    //          if (inventory_enable_btn) {
+    //           cy.get('#variant_info > .modal-dialog > .modal-content > .modal-header > .close > .material-icons').click();
+    //           cy.get(':nth-child(9) > .slider').click();
+    //           }
+    //        });
+      
+    //       // Fill out the form for the first variant with random data
+    //       cy.product_with_variant_fill_form();
+      
+    //       // Generate random numbers for inventory fields
+    //       let randomNum_current_order = Math.floor(Math.random() * 1000) + 1;
+    //       let randomNum_reorder_point = Math.floor(Math.random() * 1000) + 1;
+    //       const randomNum_reorder_quantity = Math.floor(Math.random() * 1000) + 1;
+      
+    //       // Fill out inventory fields with random data
+    //       cy.get('#inventory_varient_fill > tbody > :nth-child(1) > :nth-child(2').type(randomNum_current_order.toString());
+    //       cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString());
+    //       cy.get('#vari_reorder_qty0').type(randomNum_reorder_quantity.toString());
+      
+    //       // Ensure that reorder point is not greater than current order and swap values if necessary
+    //       if (randomNum_reorder_point >= randomNum_current_order) {
+    //         [randomNum_reorder_point, randomNum_current_order] = [randomNum_current_order, randomNum_reorder_point];
+    //         // Rewrite swapped values
+    //         cy.get('#inventory_varient_fill > tbody > :nth-child(1) > :nth-child(2').type(randomNum_current_order.toString());
+    //         cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString());
+    //       }
+      
+    //       // Interact with the second variant form
+    //       cy.get(':nth-child(5) > td > #clearform').click();
+    //       cy.product_with_variant_fill_form();
+    //       cy.get('#inventory_varient_fill > tbody > :nth-child(1) > :nth-child(2').type(randomNum_current_order.toString());
+    //       cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString());
+    //       cy.get('#vari_reorder_qty0').type(randomNum_reorder_quantity.toString());
+      
+    //       // Ensure that reorder point is not greater than current order and swap values if necessary
+    //       if (randomNum_reorder_point >= randomNum_current_order) {
+    //          [randomNum_reorder_point, randomNum_current_order] = [randomNum_current_order, randomNum_reorder_point];
+    //          // Rewrite swapped values
+    //          cy.get('#inventory_varient_fill > tbody > :nth-child(1) > :nth-child(2').type(randomNum_current_order.toString());
+    //          cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString());
+    //       }
+      
+    //       cy.get('.button-group > .btn-primary').click(); // Manually click save button
+    //     });
+    // });
     it('add_product_with variants', ()=>{
         cy.select_product_dropdown
         cy.product_details_page
         cy.click_add_product_page
         cy.save_product
+       
         cy.get('#error_product_name').should('have.text', '*Please enter a product name.')   // product_without_name assertation
         cy.fixture('addproduct').then((DATA_3)=>{
          cy.Add_Products_DATA(
@@ -195,18 +292,74 @@ describe('Add product testcases', ()=>{
             DATA_3.custom_field,
             DATA_3.product_cost
             )
-             // Ensure that the radio button is selected and then click it
-          cy.get('div.radio > :nth-child(2)').should('contain','product with variants')
-                cy.get(':nth-child(2) > .option-input').check()
-                //cy.save_product
-                cy.get('.button-group > .btn-primary').click() // save btn manullay
-                cy.get('.sweet-alert').should('contain','Please add variant options!')
-                cy.get('.confirm').click()
+            cy.add_variants() //generic func that click on checkbox and fill form of product variant data
 
-                cy.get('#showvarients').click() //add variants button
-                cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').should('have.text','Adult')
-                cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').select('Adult');
+               //1st variant assertation
+            cy.get('#variants_validation_error0').should('have.text', '*Please enter your cost.')
+            cy.get('.button-group > .btn-primary').click() // save btn manullay
+            cy.get('#varient_your_cost0').type('0')
+            cy.get('.button-group > .btn-primary').click() // save btn manullay 
+               
+            cy.get('#variants_validation_error0').should('have.text', '*Your cost must be greater than 0.')
+            cy.get('#varient_your_cost0').type('20')
+            cy. get('.button-group > .btn-primary').click() // save btn manullay 
 
+            //2nd variant assertations
+            cy.get('#variants_validation_error1').should('have.text', '*Please enter your cost.')
+            cy.get('.button-group > .btn-primary').click() // save btn manullay
+            cy.get('#varient_your_cost1').type('0')
+            cy.get('.button-group > .btn-primary').click()// save btn manullay 
+            cy.get('#variants_validation_error1').should('have.text', '*Your cost must be greater than 0.')
+            cy.get('#varient_your_cost1').type('30')
+            cy.get('.button-group > .btn-primary').click() // save btn manullay
+
+            //duplicate product name error and again fill form
+            cy.get('#error_product_name').should('have.text','The product name has already been taken.')
+            cy.get('#product_name').clear();
+            const uniqueProductName = `Product ${Date.now()}`;
+            cy.get('#product_name').type(uniqueProductName);
+         cy.add_variants({setTimeout:5000});//generic func that click on checkbox and fill form of product variant data
+
+            //form open 1st variant
+            cy.get(':nth-child(2) > td > span > #clearform').click()
+            cy.get('.border').should('contain','Inventory tracking is off')
+            .then((inventory_enable_btn)=>{
+                if(inventory_enable_btn);
+                {
+                    cy.get('#variant_info > .modal-dialog > .modal-content > .modal-header > .close > .material-icons').click()
+                    cy.get(':nth-child(9) > .slider').click();
+                }
+            });
+            cy.product_with_variant_fill_form() // call gereric function to fill separate form of product variant
+            let randomNum_current_order = Math.floor(Math.random() * 1000) + 1;
+            let randomNum_reorder_point = Math.floor(Math.random() * 1000) + 1; //let bcz its changeable
+            const randomNumreorder_quantity = Math.floor(Math.random() * 1000) + 1;
+            cy.get('#inventory_varient_fill > tbody > :nth-child(1) > :nth-child(2)').type(randomNum_current_order.toString()) //write current stock
+            cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString()) //reorder point
+            cy.get('#vari_reorder_qty0').type(randomNumreorder_quantity.toString()) //reorder quantity
+            if(randomNum_reorder_point >= randomNum_current_order);
+            {
+                [randomNum_reorder_point , randomNum_current_order] = [randomNum_current_order,randomNum_reorder_point] //swap the value
+                //rewrite swap value
+                cy.get('#inventory_varient_fill > tbody > :nth-child(1) > :nth-child(2)').type(randomNum_current_order.toString()) //write current stock
+                cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString()) //reorder point
+               }
+            
+
+               //form open 2nd variant
+            cy.get(':nth-child(5) > td > #clearform').click()
+            cy.product_with_variant_fill_form() // call gereric function to fill separate form of product variant
+            cy.get('#inventory_varient_fill > tbody > :nth-child(1) > :nth-child(2)').type(randomNum_current_order.toString()) //write current stock
+            cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString()) //reorder point
+            cy.get('#vari_reorder_qty0').type(randomNumreorder_quantity.toString()) //reorder quantity
+            if(randomNum_reorder_point >= randomNum_current_order);
+               {
+                [randomNum_reorder_point , randomNum_current_order] = [randomNum_current_order,randomNum_reorder_point] //swap the value
+                //rewrite swap value
+                 cy.get('#inventory_varient_fill > tbody > :nth-child(1) > :nth-child(2)').type(randomNum_current_order.toString()) //write current stock
+                 cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString()) //reorder point               
+                }
+            cy. get('.button-group > .btn-primary').click()
         });
     
     });

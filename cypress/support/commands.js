@@ -68,6 +68,35 @@ Cypress.Commands.add('Add_Products_DATA', (p_name , barcode, supplier_code, cust
     //cy.get('.button-group > .btn-primary').click() //save sitting
 
 });
-// cypress.Commands.add('product_with_variant', ()=>{
+Cypress.Commands.add('add_variants', ()=>{
+  // Ensure that the radio button is selected and then click it
+    cy.get('div.radio > :nth-child(2)').should('contain','product with variants')
+    cy.get(':nth-child(2) > .option-input').check()
+    cy. get('.button-group > .btn-primary').click() // save btn manullay
+    //assertation
+    cy.get('.sweet-alert').should('contain','Please add variant options!')
+    cy.get('.confirm').click()
+    cy.get('#showvarients').click() //add variants button
+    cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').type('Adult{enter}');
+    cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').type(' Young{enter}');
+    cy.get('#add_varients').click()
+    cy.log('second variant could not be added by user')
+    cy.get('#make_combinations').click() // sub_variant_save sitting
+    cy. get('.button-group > .btn-primary').click() // save btn manullay
+})
+ Cypress.Commands.add('product_with_variant_fill_form', ()=>{
+    cy.get('.col-md-9 > :nth-child(1) > .pvr-box > .row > :nth-child(3) > .form-float > .controls > label').type('123456789') //barcode
+    // Generate a unique product cost (you can use a random value)
+ 
+    const minBeforeDecimal = 10;  // Minimum value before the decimal point
+    const maxBeforeDecimal = 9999;  // Maximum value before the decimal point
+    const minAfterDecimal = 0;    // Minimum value after the decimal point
+    const maxAfterDecimal = 99;   // Maximum value after the decimal point
+    const beforeDecimal = Math.floor(minBeforeDecimal + Math.random() * (maxBeforeDecimal - minBeforeDecimal + 1)); // Generate a random value before the decimal point
+    const afterDecimal = (minAfterDecimal + Math.random() * (maxAfterDecimal - minAfterDecimal + 1)).toFixed(2);// Generate a random value after the decimal point with two decimal digits
+    const uniqueProductCost = parseFloat(`${beforeDecimal}.${afterDecimal}`); 
+    cy.get('#same_vari_price_cost').type(uniqueProductCost) //cost
+     //cy.get(':nth-child(4) > td').type()
+    cy.get('#variant_info > .modal-dialog > .modal-content > .modal-header > .btn').click() //save sitting
 
-// })
+});
