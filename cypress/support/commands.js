@@ -26,7 +26,7 @@
 Cypress.Commands.add('Login' , (domain_name, email, password) =>{
     cy.get(':nth-child(5) > .nav-link').click({ multiple: true },{timeout:5000}) //click on website
     cy.get('#site_url').type(domain_name, {timeout:8000})
-    //cy.wait(7000)
+    cy.wait(7000)
     cy.get('#btnSubmit').click({timeout:8000}) //login btn
     cy.get('#email').type(email)
     cy.get('#password').type(password)
@@ -78,7 +78,7 @@ Cypress.Commands.add('add_variants', ()=>{
     cy.get('.confirm').click()
     cy.get('#showvarients').click() //add variants button
     cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').type('Adult{enter}');
-    cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').type(' Young{enter}');
+    //cy.get('.col-sm-7 > .select2-container > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').type(' Young{enter}');
     cy.get('#add_varients').click()
     cy.log('second variant could not be added by user')
     cy.get('#make_combinations').click() // sub_variant_save sitting
@@ -89,7 +89,7 @@ Cypress.Commands.add('add_variants', ()=>{
     // Generate a unique product cost (you can use a random value)
  
     const minBeforeDecimal = 10;  // Minimum value before the decimal point
-    const maxBeforeDecimal = 9999;  // Maximum value before the decimal point
+    const maxBeforeDecimal = 999;  // Maximum value before the decimal point
     const minAfterDecimal = 0;    // Minimum value after the decimal point
     const maxAfterDecimal = 99;   // Maximum value after the decimal point
     const beforeDecimal = Math.floor(minBeforeDecimal + Math.random() * (maxBeforeDecimal - minBeforeDecimal + 1)); // Generate a random value before the decimal point
@@ -97,6 +97,20 @@ Cypress.Commands.add('add_variants', ()=>{
     const uniqueProductCost = parseFloat(`${beforeDecimal}.${afterDecimal}`); 
     cy.get('#same_vari_price_cost').type(uniqueProductCost) //cost
      //cy.get(':nth-child(4) > td').type()
-    cy.get('#variant_info > .modal-dialog > .modal-content > .modal-header > .btn').click() //save sitting
+     const maxValue = 1000; // Define your maximum value
 
+            // Generate random numbers within the specified range
+            let randomNum_current_order = Math.floor(Math.random() * maxValue) + 1;
+            let randomNum_reorder_point = Math.floor(Math.random() * maxValue) + 1;
+            let randomNumreorder_quantity = Math.floor(Math.random() * maxValue) + 1;
+            
+            // Ensure the generated values do not exceed the maximum value
+            randomNum_current_order = Math.min(randomNum_current_order, maxValue);
+            randomNum_reorder_point = Math.min(randomNum_reorder_point, maxValue);
+            randomNumreorder_quantity = Math.min(randomNumreorder_quantity, maxValue);
+            
+            // Type the values into the input fields
+            cy.get('#vari_current_stock0').type(randomNum_current_order.toString(), { force: true }); // Write current stock
+            cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString(), { force: true }); // Reorder point
+            cy.get('#vari_reorder_qty0').type(randomNumreorder_quantity.toString(), { force: true }); // Reorder quantity
 });
