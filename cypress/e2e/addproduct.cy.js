@@ -331,16 +331,8 @@ describe('Add product testcases', ()=>{
                     cy.get(':nth-child(9) > .slider').click();
                 }
             });
-            cy.get(':nth-child(2) > td > span > #clearform').click() //after assertation  again open child variant
-            cy.product_with_variant_fill_form() // call gereric function to fill separate form of product variant        
-            if(randomNum_reorder_point >= randomNum_current_order);
-            {
-                [randomNum_reorder_point , randomNum_current_order] = [randomNum_current_order,randomNum_reorder_point] //swap the value
-                //rewrite swap value
-                cy.get('#vari_current_stock0').type(randomNum_current_order.toString(),{force: true}) //write current stock
-                cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString(),{force: true}) //reorder point
-            }
-            
+         cy.get(':nth-child(2) > td > span > #clearform').click() //after assertation  again open child variant
+         cy.product_with_variant_fill_form() // call gereric function to fill separate form of product variant                 
 
             //    //form open 2nd variant
             // cy.wait(5000)

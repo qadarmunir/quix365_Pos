@@ -96,8 +96,8 @@ Cypress.Commands.add('add_variants', ()=>{
     const afterDecimal = (minAfterDecimal + Math.random() * (maxAfterDecimal - minAfterDecimal + 1)).toFixed(2);// Generate a random value after the decimal point with two decimal digits
     const uniqueProductCost = parseFloat(`${beforeDecimal}.${afterDecimal}`); 
     cy.get('#same_vari_price_cost').type(uniqueProductCost) //cost
-     //cy.get(':nth-child(4) > td').type()
-     const maxValue = 1000; // Define your maximum value
+            //cy.get(':nth-child(4) > td').type()
+            const maxValue = 1000; // Define your maximum value
 
             // Generate random numbers within the specified range
             let randomNum_current_order = Math.floor(Math.random() * maxValue) + 1;
@@ -113,4 +113,11 @@ Cypress.Commands.add('add_variants', ()=>{
             cy.get('#vari_current_stock0').type(randomNum_current_order.toString(), { force: true }); // Write current stock
             cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString(), { force: true }); // Reorder point
             cy.get('#vari_reorder_qty0').type(randomNumreorder_quantity.toString(), { force: true }); // Reorder quantity
+            if(randomNum_reorder_point >= randomNum_current_order);
+            {
+                [randomNum_reorder_point , randomNum_current_order] = [randomNum_current_order,randomNum_reorder_point] //swap the value
+                //rewrite swap value
+                cy.get('#vari_current_stock0').type(randomNum_current_order.toString(),{force: true}) //write current stock
+                cy.get('#vari_reorder_point0').type(randomNum_reorder_point.toString(),{force: true}) //reorder point
+            }
 });
