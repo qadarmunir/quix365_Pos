@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 Cypress.Commands.add('Login' , (domain_name, email, password) =>{
     cy.get(':nth-child(5) > .nav-link').click({ multiple: true },{timeout:5000}) //click on website
-    cy.get('#site_url').type(domain_name, {timeout:8000})
+    cy.get('#site_url').type(domain_name, {timeout:8000},'{enter}')
     cy.wait(7000)
     cy.get('#btnSubmit').click({timeout:8000}) //login btn
     cy.get('#email').type(email)
