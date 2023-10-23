@@ -16,7 +16,7 @@ describe('Add product testcases', ()=>{
     // let save_product;
     beforeEach(()=>{
         cy.visit('https://quix365.com/')
-        cy.Login('qadarps ', 'g.qadar.qa@gmail.com', '12345678')
+        cy.Login('qadarjs ', 'g.qadar.qa@gmail.com', '12345678')
          //open product page
         cy.get('.nav > :nth-child(3) > .dropdown-toggle').as('select_product_dropdown').click()
         cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').as('product_details_page').click()
@@ -25,7 +25,7 @@ describe('Add product testcases', ()=>{
     });
     afterEach(()=>{
         cy.get('.w-30').click({force:true});
-        cy.get('[href="https://qadarps.quix365.com/en/admin/logout"]').click({force:true});
+        cy.get('[href="https://qadarjs.quix365.com/en/admin/logout"]').click({force:true});
     });
     // it.skip('add_simple_product',()=>{
     //     cy.select_product_dropdown
@@ -43,60 +43,6 @@ describe('Add product testcases', ()=>{
     //  cy.get('.button-group > .btn-primary').click()  //save_product
     
     // });
-    it('add_simple_product_with_no_variant_unique_name', () => {
-        //open product page by using alias
-        cy.get('@select_product_dropdown').should('be.visible').click({ force: true }); 
-        cy.get('@product_details_page').should('be.visible').click({ force: true }); 
-        cy.get('.module-actions > .btn-primary').as('click_add_product_page').click();
-        cy.get('.button-group > .btn-primary').as('save_product').click();
-    
-        //  Load data from the 'addproduct' fixture file and add a product.
-        cy.fixture('addproduct').then((DATA_2) => {
-            // Generate a unique product name using a timestamp or random value
-            const uniqueProductName = `Product ${Date.now()}`;
-        //     // Generate a unique product cost (you can use a random value)
-            
-        //     const minBeforeDecimal = 10;  // Minimum value before the decimal point
-        //     const maxBeforeDecimal = 9999;  // Maximum value before the decimal point
-        //     const minAfterDecimal = 0;    // Minimum value after the decimal point
-        //     const maxAfterDecimal = 99;   // Maximum value after the decimal point
-
-        //     // Generate a random value before the decimal point
-        //     const beforeDecimal = Math.floor(minBeforeDecimal + Math.random() * (maxBeforeDecimal - minBeforeDecimal + 1));
-
-        //     // Generate a random value after the decimal point with two decimal digits
-        //     const afterDecimal = (minAfterDecimal + Math.random() * (maxAfterDecimal - minAfterDecimal + 1)).toFixed(2);
-
-        //    // Combine both parts to get the desired value
-        //    const uniqueProductCost = parseFloat(`${beforeDecimal}.${afterDecimal}`);
-
-    
-            // Check if the product name in the fixture is 'Product 12', and if so, update it.
-            if (DATA_2.p_name === 'Product 12') {
-                DATA_2.p_name = uniqueProductName; // Update the product name
-    
-                // Update other properties within DATA_2 as needed
-                DATA_2.barcode = 'new_barcode_value';
-                DATA_2.supplier_code ;
-                DATA_2.custom_field ;
-                DATA_2.product_cost ;
-            }
-    
-            // Add the product with the updated data.
-            cy.Add_Products_DATA(
-                DATA_2.p_name,
-                DATA_2.barcode,
-                DATA_2.supplier_code,
-                DATA_2.custom_field,
-                DATA_2.product_cost
-            );
-    
-            //  Save the product.
-        cy.get('@save_product').click();
-            // Optionally, you can add assertions for successful product creation here.
-        });
-    });
-    
     it('Add_product_page_validation', ()=>{
         //open product page by using alias
         cy.get('@select_product_dropdown').should('be.visible').click({ force: true }); 
@@ -136,9 +82,11 @@ describe('Add product testcases', ()=>{
                     cy.get('#single_cost_error').should('have.text','*Your cost must be greater than 0.')
                     
                     cy.reload(); // Refresh the page
+                    DATA_1.p_name='product 12',
+                    DATA_1.product_cost= '20',
+                    DATA_1.barcode='123456789' 
                     cy.Add_Products_DATA(
-                        DATA_1.p_name='product 12',
-                        DATA_1.product_cost= '20',          //duplicate name assertation
+                        DATA_1.p_name,
                         DATA_1.barcode,
                         DATA_1.supplier_code,
                         DATA_1.custom_field,
@@ -147,13 +95,59 @@ describe('Add product testcases', ()=>{
                     //cy.save_product
                     cy.get('@save_product').click()
                     cy.get('#error_product_name').should('have.text','The product name has already been taken.')
-
+                    cy.get('#error_bar_code').should('have.text','The bar code has already been taken.')
                 });
             }
         });
 
     });
-
+    it('add_simple_product_with_no_variant_unique_name', () => {
+        //open product page by using alias
+        cy.get('@select_product_dropdown').should('be.visible').click({ force: true }); 
+        cy.get('@product_details_page').should('be.visible').click({ force: true }); 
+        cy.get('.module-actions > .btn-primary').as('click_add_product_page').click();
+        cy.get('.button-group > .btn-primary').as('save_product').click();
+    
+        //  Load data from the 'addproduct' fixture file and add a product.
+        cy.fixture('addproduct').then((DATA_2) => {
+            // Generate a unique product name using a timestamp or random value
+            const uniqueProductName = `Product ${Date.now()}`;
+            // Generate a unique bar code using for loop
+            const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            let uniqueBarcode = '';
+            
+            for (let i = 0; i < 6; i++) {
+              const randomIndex = Math.floor(Math.random() * characters.length);
+              uniqueBarcode += characters.charAt(randomIndex);
+            }
+            
+              
+            // Check if the product name in the fixture is 'Product 12', and if so, update it.
+            if (DATA_2.p_name === 'Product 12' && DATA_2.barcode==='123456789') {
+                DATA_2.p_name = uniqueProductName; // Update the product name
+    
+                // Update other properties within DATA_2 as needed
+                DATA_2.barcode = uniqueBarcode;
+                DATA_2.supplier_code ;
+                DATA_2.custom_field ;
+                DATA_2.product_cost ;
+            }
+    
+            // Add the product with the updated data.
+            cy.Add_Products_DATA(
+                DATA_2.p_name,
+                DATA_2.barcode,
+                DATA_2.supplier_code,
+                DATA_2.custom_field,
+                DATA_2.product_cost
+            );
+    
+            //  Save the product.
+        cy.get('@save_product').click();
+            // Optionally, you can add assertions for successful product creation here.
+        });
+    });
+    
     it('Cancel_Delete_product', () => {    
         //open product page by using alias
         cy.get('@select_product_dropdown').should('be.visible').click({ force: true }); 
@@ -192,9 +186,18 @@ describe('Add product testcases', ()=>{
        
         cy.get('#error_product_name').should('have.text', '*Please enter a product name.')   // product_without_name assertation
         cy.fixture('addproduct').then((DATA_3)=>{
+         const uniqueProductName = `Product ${Date.now()}`;
+         // Generate a unique bar code using for loop
+         const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+         let uniqueBarcode = '';
+            
+          for (let i = 0; i < 6; i++) {
+              const randomIndex = Math.floor(Math.random() * characters.length);
+              uniqueBarcode += characters.charAt(randomIndex);
+            }
          cy.Add_Products_DATA(
             DATA_3.p_name,
-            DATA_3.barcode,
+            DATA_3.barcode=uniqueBarcode,
             DATA_3.supplier_code,          
             DATA_3.custom_field,
             DATA_3.product_cost
@@ -223,7 +226,7 @@ describe('Add product testcases', ()=>{
             //duplicate product name error and again fill form
             cy.get('#error_product_name').should('have.text','The product name has already been taken.')
             cy.get('#product_name').clear();
-            const uniqueProductName = `Product ${Date.now()}`;
+           // const uniqueProductName = `Product ${Date.now()}`;
             cy.get('#product_name').type(uniqueProductName);
             cy.add_variants({setTimeout:5000});//generic func that click on checkbox and fill form of product variant data
 
@@ -257,7 +260,15 @@ describe('Add product testcases', ()=>{
         cy.get('.module-actions > .btn-primary').as('click_add_product_page').click();
 
         const uniqueProductName = `Product ${Date.now()}`;
+        let uniqueBarcode = '';
+            
+        for (let i = 0; i < 6; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            uniqueBarcode += characters.charAt(randomIndex);
+        }
+
         cy.get('#product_name').type(uniqueProductName,{ force: true });
+        cy.get('.col-md-8 > :nth-child(1) > .pvr-box > .row > :nth-child(2) > .form-float > .controls > label').type(uniqueBarcode)
         cy.add_variants({setTimeout:5000});//generic func that click on checkbox and fill form of product variant data
 
          //form open 1st variant

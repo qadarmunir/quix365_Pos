@@ -44,7 +44,26 @@ Cypress.Commands.add('Login' , (domain_name, email, password) =>{
 //     cy.get('.btn').click({timeout:5000})
 
 // })
-Cypress.Commands.add('Add_Products_DATA', (p_name , barcode, supplier_code, custome_field , product_cost)=>{
+
+// Function to generate a random alphanumeric barcode with a specified length
+// function generateRandomAlphanumericBarcode(length) {
+//     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+//     let randomBarcode = '';
+  
+//     for (let i = 0; i < length; i++) {
+//       const randomIndex = Math.floor(Math.random() * characters.length);
+//       randomBarcode += characters.charAt(randomIndex);
+//     }
+  
+//     return randomBarcode;
+//   }
+  
+//   // Define the custom command
+//   Cypress.Commands.add('generateAlphanumericBarcode', (length) => {
+//     return generateRandomAlphanumericBarcode(length);
+//   });
+
+ Cypress.Commands.add('Add_Products_DATA', (p_name , barcode, supplier_code, custome_field , product_cost)=>{
 
     cy.get('.controls > .__mandatory_aestrick_label').type(p_name) //product name
     cy.get('.col-md-8 > :nth-child(1) > .pvr-box > .row > :nth-child(2) > .form-float > .controls > label').type(barcode) //barcode
@@ -54,16 +73,74 @@ Cypress.Commands.add('Add_Products_DATA', (p_name , barcode, supplier_code, cust
     cy.log(' Simple product, no variants ')
 
     cy.get('#chl_type').check().should('be.enabled') // show on POS check
-    cy.get('.pvr-box > .row > :nth-child(1) > label').should('have.text', '\n                                Point Of Sale')
+    cy.get('.pvr-box > .row > :nth-child(1) > label').should('contain','Point Of Sale')
     cy.get('#clearform').click() // select outlet
      // cy.xpath("(//input[@name='outlet_ids[]'])[1]").check().should('be.enabled') // select outlet
-    cy.get('.col-6 > label').click()
-   // cy.get('.col-6 > label').should('have.text', '\n                                        \n                                        Lhr Store\n') //
+     // cy.get('.col-6 > label').click()
+     // cy.get('.col-6 > label').should('have.text', '\n                                        \n                                        Lhr Store\n') //
+     
+    cy.get("input[value='1'][name='outlet_ids[]']").should('be.enabled') //first outlet
+    cy.get("input[value='2'][name='outlet_ids[]']").should('be.enabled') //2nd outlet
     cy.get('#sel_outlet').click() // save  sittings
     cy.get('.col-sm-12 > label > .option-input').check().should('be.enabled') // show on ecommerce checkbox
     //cy.get('.col-sm-12 > label').should('have.text', '\n  Ecommerce')
-    cy.get(':nth-child(7) > .slider').click()
-    cy.get(':nth-child(9) > .slider').click()
+    cy.get(':nth-child(7) > .slider').click() //Enable Toggle show on The Top of the Ecommerce site
+    cy.get(':nth-child(9) > .slider').click() // Enable Toggle For Track inventory of that product
+    //fill Data of first form of first store
+    cy.get('[data-outlet-id="1"] > :nth-child(1)').should('contain', 'Lhr Store')
+    // cy.get('#current_stock0').type()
+    // cy.get('#reorder_point0').type()
+    // cy.get('#reorder_qty0').type()
+    // Generate random numbers within the specified range
+    const maxValue = 1000; // Define your maximum value
+    let randomNum_current_order = Math.floor(Math.random() * maxValue) + 1;
+    let randomNum_reorder_point = Math.floor(Math.random() * maxValue) + 1;
+    let randomNumreorder_quantity = Math.floor(Math.random() * maxValue) + 1;
+            
+    // Ensure the generated values do not exceed the maximum value
+    randomNum_current_order = Math.min(randomNum_current_order, maxValue);
+    randomNum_reorder_point = Math.min(randomNum_reorder_point, maxValue);
+    randomNumreorder_quantity = Math.min(randomNumreorder_quantity, maxValue);
+            
+    // Type the values into the input fields
+    cy.get('#current_stock0').type(randomNum_current_order.toString(), { force: true }); // Write current stock
+    cy.get('#reorder_point0').type(randomNum_reorder_point.toString(), { force: true }); // Reorder point
+    cy.get('#reorder_qty0').type(randomNumreorder_quantity.toString(), { force: true }); // Reorder quantity
+    if(randomNum_reorder_point >= randomNum_current_order);
+        {
+           [randomNum_reorder_point , randomNum_current_order] = [randomNum_current_order,randomNum_reorder_point] //swap the value
+            //rewrite swap value
+            cy.get('#current_stock0').type(randomNum_current_order.toString(),{force: true}) //write current stock
+            cy.get('#reorder_point0').type(randomNum_reorder_point.toString(),{force: true}) //reorder point
+        }
+
+    //fill Data of first form of 2nd  store
+    //cy.get('[data-outlet-id="2"] > :nth-child(1)').should('have.text','Karachi outlet')
+    // Generate random numbers within the specified range
+    let randomNum_current_order1 = Math.floor(Math.random() * maxValue) + 1;
+    let randomNum_reorder_point1 = Math.floor(Math.random() * maxValue) + 1;
+    let randomNumreorder_quantity1 = Math.floor(Math.random() * maxValue) + 1;
+                
+    // Ensure the generated values do not exceed the maximum value
+    randomNum_current_order1 = Math.min(randomNum_current_order1, maxValue);
+    randomNum_reorder_point1 = Math.min(randomNum_reorder_point1, maxValue);
+    randomNumreorder_quantity1 = Math.min(randomNumreorder_quantity1, maxValue);
+                
+    // Type the values into the input fields
+    cy.get('#current_stock1').type(randomNum_current_order1.toString(), { force: true }); // Write current stock
+    cy.get('#reorder_point1').type(randomNum_reorder_point1.toString(), { force: true }); // Reorder point
+    cy.get('#reorder_qty1').type(randomNumreorder_quantity1.toString(), { force: true }); // Reorder quantity
+    if(randomNum_reorder_point1 >= randomNum_current_order1);
+        {
+            [randomNum_reorder_point1 , randomNum_current_order1] = [randomNum_current_order1,randomNum_reorder_point1] //swap the value
+            //rewrite swap value
+            cy.get('#current_stock1').type(randomNum_current_order1.toString(),{force: true}) //write current stock
+            cy.get('#reorder_point1').type(randomNum_reorder_point1.toString(),{force: true}) //reorder point
+        }
+    // cy.get('#current_stock0').type()
+    // cy.get('#reorder_point0').type()
+    // cy.get('#reorder_qty0').type()
+
     cy.get('#your_cost').type(product_cost)
     //cy.get('.button-group > .btn-primary').click() //save sitting
 
