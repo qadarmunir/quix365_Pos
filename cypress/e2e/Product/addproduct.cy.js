@@ -9,11 +9,6 @@
 //const { beforeEach } = require("mocha");
 
 describe('Add product testcases', ()=>{
-    //global variables
-    // let select_product_dropdown ;
-    // let product_details_page ;
-    // let  click_add_product_page ;
-    // let save_product;
     beforeEach(()=>{
         cy.visit('https://quix365.com/')
         cy.Login('qadarjs ', 'g.qadar.qa@gmail.com', '12345678')
