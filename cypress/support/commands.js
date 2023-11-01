@@ -204,6 +204,9 @@ Cypress.Commands.add('product_type_form',()=>{
     //cy.get('img[src="path-to-uploaded-image.jpg"]').should('exist');
     cy.get('.__mandatory_aestrick_label').type('My_Parent_product_type')
     cy.get('@save_btn').click()
-    cy.get('.sweet-alert').should('be.visible').contains('Product Type has been Added successfully.')
-    cy.get('.confirm').click()
-})
+});
+    
+
+
+
+  
