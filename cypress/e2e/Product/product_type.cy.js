@@ -10,10 +10,14 @@ describe('Product_Type', ()=>{
          cy.get('#btn > .material-icons').click() //cancel button
          //cy.fixture('download (25).jpg').as('fileToUpload');
     });
-    // afterEach(()=>{
-    //     cy.get('.w-30').click({force:true});
-    //     cy.get('[href="https://qadarjs.quix365.com/en/admin/logout"]').click({force:true});
+    // before(()=>{
+    //     cy.visit('https://quix365.com/')
+    //     cy.Login('qadarjs ', 'g.qadar.qa@gmail.com', '12345678')
     // });
+    afterEach(()=>{
+        cy.get('.w-30').click({force:true});
+        cy.get('[href="https://qadarjs.quix365.com/en/admin/logout"]').click({force:true});
+    });
     it('Add_Product_parent_Type',()=>{
         cy.get('@select_product_dropdown').click()
         cy.get('@product_type_page').click()
@@ -26,7 +30,7 @@ describe('Product_Type', ()=>{
             }
         })    
     });
-    it.skip('Validations assertations', ()=>{
+    it('Validations assertations', ()=>{
         cy.get('@select_product_dropdown').click()
         cy.get('@product_type_page').click()
         cy.get('@Add_product_type_page_btn').click()
@@ -38,18 +42,6 @@ describe('Product_Type', ()=>{
         cy.get('.__mandatory_aestrick_label').type('My_Parent_product_type') //duplicate name 
         cy.get('@save_btn').click()
         cy.get(':nth-child(1) > .error').should('have.text','The name has already been taken.') // duplicate name assertation
-    });
-    it.skip('delete/cancel_product type',()=>{
-        cy.get('tbody > :nth-child(1) > :nth-child(6)')
-        cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
-        cy.get('.cancel').contains('No, cancel please!').click();   //click on cancel button
-        cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
-        cy.get('.sweet-alert').should('be.visible')
-        .contains('Record will be permanently deleted.')
-        cy.get('.confirm').contains('Yes, delete it!').click();
-        cy.get('.sweet-alert').should('be.visible')
-        .contains('Product Type has been deleted successfully.')
-        cy.get('.confirm').click({ force: true }) // Click delete button
     });
     // it.only('Edit_product_type_an_create_subtype', ()=>{
     //     cy.get('tbody > :nth-child(1) > :nth-child(6)')
@@ -80,7 +72,7 @@ describe('Product_Type', ()=>{
         cy.get('#btn_change_text').click();
         
     });
-    it.only('Associate product type with product and verify', ()=>{
+    it('Associate product type with product and verify', ()=>{
         cy.get('.nav > :nth-child(3) > .dropdown-toggle').as('select_product_dropdown').click()
         cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').as('product_details_page').click()
         cy.get('.module-actions > .btn-primary').as('click_add_product_page').click()
@@ -131,4 +123,28 @@ describe('Product_Type', ()=>{
         });
         
     });
+    it('disable product_type', ()=>{
+        cy.get('@select_product_dropdown').click()
+        cy.get('@product_type_page').click()
+        cy.get(':nth-child(1) > :nth-child(5) > .switch > .slider').click() //disable button
+        //open product to verify linked product type
+        cy.get('.nav > :nth-child(3) > .dropdown-toggle').as('select_product_dropdown').click()
+        cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').as('product_details_page').click()
+        cy.get('tbody > :nth-child(1) > :nth-child(8)') //catch body
+        cy.get('a[title="Edit"]').first().click({ force: true }); // Click on edit button
+        //cy.get(':nth-child(4) > :nth-child(1) > :nth-child(2) > .select2 > .selection > .select2-selection > .select2-selection__rendered').should('be.empty');
+        cy.get(':nth-child(4) > :nth-child(1) > :nth-child(2) > .select2 > .selection > .select2-selection > .select2-selection__rendered > .select2-search > .select2-search__field').should('be.empty');
+        cy.go(-2) //open product type page
+        cy.get(':nth-child(1) > :nth-child(5) > .switch > .slider').click() //enable product type button
+        cy.go(1) //move forword open product page
+        cy.get('a[title="Edit"]').first().click({ force: true }); // Click on edit button
+        cy.get(':nth-child(4) > :nth-child(1) > :nth-child(2) > .select2 > .selection > .select2-selection > .select2-selection__rendered').contains('product_subtype')
+        cy.get('#update_product_button').click() // update sitting
+    })
+    it('delete/cancel_product type',()=>{
+        cy.get('.nav > :nth-child(3) > .dropdown-toggle').as('select_product_dropdown').click();
+        cy.get('li.show > .dropdown-menu > :nth-child(2) > .sub_link').as('product_type_page').click();
+        cy.DELETE_Product_TYPE()
+        cy.DELETE_Product_TYPE()
+     });
 });

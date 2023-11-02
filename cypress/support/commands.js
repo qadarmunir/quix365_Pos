@@ -23,16 +23,54 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-Cypress.Commands.add('Login' , (domain_name, email, password) =>{
-    cy.get(':nth-child(5) > .nav-link').click({ multiple: true },{timeout:5000}) //click on website
-    cy.get('#site_url').type(domain_name, {timeout:8000},'{enter}')
-    cy.wait(7000)
-    cy.get('#btnSubmit').click({timeout:8000}) //login btn
-    cy.get('#email').type(email)
-    cy.get('#password').type(password)
-    cy.get('.btn').click({timeout:5000})
+// Cypress.Commands.add('Login' , (domain_name, email, password) =>{
+//     cy.get(':nth-child(5) > .nav-link').click({ multiple: true },{timeout:5000}) //click on website
+//     cy.get('#site_url').type(domain_name)
+//     cy.get('#btnSubmit').click({timeout:8000})
+//     cy.get('#check_url')
+//     cy.get('#site_url_error_icon')
+//     .then((url_found)=>{
+//      if(url_found)
+//         {   
+//             cy.get('#email').type(email)
+//             cy.get('#password').type(password)
+//             cy.get('.btn').click({timeout:5000})
+//         }
+//         else
+//         {
+//             cy.get('#site_url').type("{enter}")
+//             cy.get('#btnSubmit').click({timeout:8000})
+//             cy.get('#email').type(email)
+//             cy.get('#password').type(password)
+//             cy.get('.btn').click({timeout:5000})
+//         }
 
+//     }) //login btn
+// })
+Cypress.Commands.add('Login', (domain_name, email, password) => {
+    cy.get(':nth-child(5) > .nav-link').click({ timeout: 5000 }) // Click on website
+
+    cy.get('#site_url').type(domain_name, {setTimeout:3000})
+    cy.get('#check_url').then(($checkUrl) => {
+        if ($checkUrl.length > 0) {
+            cy.wait(5000)
+            cy.get('#btnSubmit').click({ timeout: 8000 })
+            // URL found
+            cy.get('#email').type(email)
+            cy.get('#password').type(password)
+            cy.get('.btn').click({ timeout: 5000 }) // Click login button
+        }
+         else {
+            // URL not found, handle accordingly
+            cy.get('#site_url').type("{enter}")
+            cy.get('#btnSubmit').click({ timeout: 8000 })
+            cy.get('#email').type(email)
+            cy.get('#password').type(password)
+            cy.get('.btn').click({ timeout: 5000 }) // Click login button
+        }
+    })
 })
+
 
 // Cypress.Commands.add('Login' , () =>{
 //     cy.get(':nth-child(5) > .nav-link').click({timeout:5000}) //click on website
@@ -205,7 +243,22 @@ Cypress.Commands.add('product_type_form',()=>{
     cy.get('.__mandatory_aestrick_label').type('My_Parent_product_type')
     cy.get('@save_btn').click()
 });
-    
+Cypress.Commands.add('DELETE_Product_TYPE',()=>{
+    cy.get('tbody > :nth-child(1) > :nth-child(6)')
+    cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
+    cy.get('.cancel').contains('No, cancel please!').click();   //click on cancel button
+    cy.get('a[title="Delete"]').first().click({ force: true }); // Click delete button
+    cy.get('.sweet-alert').should('be.visible')
+    .contains('Record will be permanently deleted.')
+    cy.get('.confirm').contains('Yes, delete it!').click();
+    cy.get('.sweet-alert').should('be.visible')
+    .contains('Product Type has been deleted successfully.')
+    cy.get('.confirm').click({ force: true }) // Click delete button
+});
+Cypress.Commands.add('Add_product_Tag',()=>{
+    cy.get('.__mandatory_aestrick_label').type('myTag')
+    cy.get('#btn_change_text').click() //save button
+})
 
 
 
