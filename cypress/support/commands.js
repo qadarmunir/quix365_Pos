@@ -48,58 +48,15 @@
 //     }) //login btn
 // })
 Cypress.Commands.add('Login', (domain_name, email, password) => {
-    cy.get(':nth-child(5) > .nav-link').click({ timeout: 5000 }) // Click on website
-
-    cy.get('#site_url').type(domain_name, {setTimeout:3000})
-    cy.get('#check_url').then(($checkUrl) => {
-        if ($checkUrl.length > 0) {
-            cy.wait(5000)
-            cy.get('#btnSubmit').click({ timeout: 8000 })
-            // URL found
-            cy.get('#email').type(email)
-            cy.get('#password').type(password)
-            cy.get('.btn').click({ timeout: 5000 }) // Click login button
-        }
-         else {
-            // URL not found, handle accordingly
-            cy.get('#site_url').type("{enter}")
-            cy.get('#btnSubmit').click({ timeout: 8000 })
-            cy.get('#email').type(email)
-            cy.get('#password').type(password)
-            cy.get('.btn').click({ timeout: 5000 }) // Click login button
-        }
-    })
-})
-
-
-// Cypress.Commands.add('Login' , () =>{
-//     cy.get(':nth-child(5) > .nav-link').click({timeout:5000}) //click on website
-//     cy.get('#site_url').type('qadarjs')
-//     cy.wait(3000)
-//     cy.get('#btnSubmit').click({timeout:5000}) //login btn
-//     cy.get('#email').type('qadar.q.a1+9@gmail.com')
-//     cy.get('#password').type('12345678')
-//     cy.get('.btn').click({timeout:5000})
-
-// })
-
-// Function to generate a random alphanumeric barcode with a specified length
-// function generateRandomAlphanumericBarcode(length) {
-//     const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-//     let randomBarcode = '';
-  
-//     for (let i = 0; i < length; i++) {
-//       const randomIndex = Math.floor(Math.random() * characters.length);
-//       randomBarcode += characters.charAt(randomIndex);
-//     }
-  
-//     return randomBarcode;
-//   }
-  
-//   // Define the custom command
-//   Cypress.Commands.add('generateAlphanumericBarcode', (length) => {
-//     return generateRandomAlphanumericBarcode(length);
-//   });
+ cy.get(':nth-child(5) > .nav-link').click({ timeout: 5000 }) // Click on website
+   cy.get('#site_url').type(domain_name);
+   cy.get('#check_url', { timeout: 10000 })
+   cy.wait(5000)
+   cy.get('#btnSubmit').click({timeout: 10000 });
+   cy.get('#email').type(email);
+   cy.get('#password').type(password);
+   cy.get('.btn').click({timeout: 10000 });
+});   
 
  Cypress.Commands.add('Add_Products_DATA', (p_name , barcode, supplier_code, custome_field , product_cost)=>{
 
@@ -257,6 +214,10 @@ Cypress.Commands.add('DELETE_Product_TYPE',()=>{
 });
 Cypress.Commands.add('Add_product_Tag',()=>{
     cy.get('.__mandatory_aestrick_label').type('myTag')
+    cy.get('#btn_change_text').click() //save button
+})
+Cypress.Commands.add('Add_product_Brand',()=>{
+    cy.get('.__mandatory_aestrick_label').type('mybrand') //write nam ee of button
     cy.get('#btn_change_text').click() //save button
 })
 
