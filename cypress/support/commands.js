@@ -48,7 +48,7 @@
 //     }) //login btn
 // })
 Cypress.Commands.add('Login', (domain_name, email, password) => {
- cy.get(':nth-child(5) > .nav-link').click({ timeout: 5000 }) // Click on website
+ cy.get(':nth-child(5) > .nav-link').click({ multiple: true },{ timeout: 5000 }) // Click on website
    cy.get('#site_url').type(domain_name);
    cy.get('#check_url', { timeout: 10000 })
    cy.wait(5000)

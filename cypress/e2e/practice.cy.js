@@ -7,10 +7,11 @@ describe('Add product testcases', ()=>{
         
          //open product page
     });
-    it.skip('select date ',()=>{
-        cy.get('body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)').click()
+    it('select date ',()=>{
+        cy.get('body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)').trigger('mouseover').click({force: true})
+        cy.wait(3000)
         
-        cy.get('body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(4) > a:nth-child(1) > span:nth-child(1)').click()
+        cy.get('body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(4) > a:nth-child(1) > span:nth-child(1)').click({force: true})
         cy.get('.module-actions > .btn').click() // add quotation module
         //cy.get('#expires_at').click() //expire date  
         const dateToSelect = '2023-10-28'; // Replace with your desired date
@@ -28,7 +29,7 @@ describe('Add product testcases', ()=>{
     // it('Product_Tag', ()=>{
 
     // });
-    it('Add_Products_DATAaa',()=>{
+    it.skip('Add_Products_DATAaa',()=>{
         cy.get('.nav > :nth-child(3) > .dropdown-toggle').as('select_product_dropdown').click()
         cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').as('product_details_page').click()
         cy.get('.module-actions > .btn-primary').as('click_add_product_page').click()
