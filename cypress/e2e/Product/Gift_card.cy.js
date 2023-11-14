@@ -35,18 +35,11 @@ describe('Gift_card',()=>{
        cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").click({force:true}) // open register page
        cy.get('#close_register').click() //close register button
        cy.get('.sweet-alert').contains("Just a reminder... If any discrepancies, don't forget to adjust actual counted box before closing the register.")
-       cy.get('.confirm').contains('Continue').click({force:true},{timeout:5000}) // close button
-       cy.wait(5000)
-       // Switch to the new window
-    //    cy.window().then((win) => {
-    //    const newWindow = win.openedWindows[0]; // Assuming the new window is the first in the openedWindows array
-  
-    //    // Perform actions in the new window
-    //    cy.wrap(newWindow)
-    //   .find('#cancelButton') // Replace with the actual identifier for the Cancel button in the new window
-    //   .click();
-    //  });
-       
-    //  //    cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(1) > a:nth-child(1) > span:nth-child(1)").click({force:true}) // pos sale process page 
-     });
+       cy.get("body > div.sweet-alert.showSweetAlert.visible > div.sa-button-container > div > button")
+       .invoke('removeAttr', 'iframe') // Fix typo here: 'src', not 'scr'
+       .click({ force: true });
+       // Check if a new window or tab has been opened
+
+      // cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(1) > a:nth-child(1) > span:nth-child(1)").click({force:true}) // pos sale process page 
+    });
 });
