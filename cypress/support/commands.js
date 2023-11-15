@@ -220,9 +220,13 @@ Cypress.Commands.add('Add_product_Brand',()=>{
     cy.get('.__mandatory_aestrick_label').type('mybrand') //write nam ee of button
     cy.get('#btn_change_text').click() //save button
 })
-Cypress.Commands.add("printClose", () => {
-    cy.exec("window.close()");
+// commands.js
+Cypress.Commands.add("setGlobalVariable", (key, value) => {
+    Cypress.env[key] = value;
   });
+
+
+  
   
 
 
