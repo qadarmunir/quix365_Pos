@@ -221,8 +221,10 @@ Cypress.Commands.add('Add_product_Brand',()=>{
     cy.get('#btn_change_text').click() //save button
 })
 // commands.js
-Cypress.Commands.add("setGlobalVariable", (key, value) => {
-    Cypress.env[key] = value;
+Cypress.Commands.add('open_sale_process_page', (key, value) => {
+    cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down process
+    cy.get("div[class='sub-menu collapse show'] li:nth-child(1) a:nth-child(1) span:nth-child(1)").click({force:true}) // pos sale process page
+    cy.get(".outlet_register_id.cash_register_box[data-register='1']").should('have.text','Cash Register 1').click({force:true}) //again open register   
   });
 
 
