@@ -48,11 +48,21 @@
 //     }) //login btn
 // })
 Cypress.Commands.add('Login', (domain_name, email, password) => {
- cy.get(':nth-child(5) > .nav-link').click({ multiple: true },{ timeout: 5000 }) // Click on website
-   cy.get('#site_url').type(domain_name);
-   cy.get('#check_url', { timeout: 10000 })
-   cy.wait(5000)
-   cy.get('#btnSubmit').click({timeout: 10000 });
+   cy.get(':nth-child(5) > .nav-link').click({ multiple: true }) // Click on website
+   cy.wait(3000)
+   cy.get('#site_url').type(domain_name,{ timeout: 10000 });
+   //cy.wait(3000)
+   cy.get('#check_url').then(($ulr_found)=>{
+    if($ulr_found)
+    {
+      cy.get('#btnSubmit').click({timeout: 10000 });
+    }
+    else{
+        cy.get('#site_url').type(domain_name,{ timeout: 10000 });
+        cy.get('#btnSubmit').click({timeout: 10000 });
+    }
+   })
+   
    cy.get('#email').type(email);
    cy.get('#password').type(password);
    cy.get('.btn').click({timeout: 10000 });
@@ -221,11 +231,48 @@ Cypress.Commands.add('Add_product_Brand',()=>{
     cy.get('#btn_change_text').click() //save button
 })
 // commands.js
-Cypress.Commands.add('open_sale_process_page', (key, value) => {
+Cypress.Commands.add('open_sale_process_page', () => {
     cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down process
     cy.get("div[class='sub-menu collapse show'] li:nth-child(1) a:nth-child(1) span:nth-child(1)").click({force:true}) // pos sale process page
     cy.get(".outlet_register_id.cash_register_box[data-register='1']").should('have.text','Cash Register 1').click({force:true}) //again open register   
   });
+  Cypress.Commands.add('open_outlet_register', ()=>{  
+    cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down process page
+    cy.wait(3000)
+    cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").click({force:true}) // open register page
+    //open outlet and register 
+    cy.get('#myTab > :nth-child(1) > .nav-link').contains('Lhr Store')
+    cy.get(".outlet_register_id.cash_register_box[data-register='1']").should('have.text','Cash Register 1').click({force:true})
+    cy.get('.input-group > .form-control').clear().type('0')
+    cy.get('.input-group-btn > .btn').click({force:true}) //open button
+  })
+  Cypress.Commands.add('open_outlet_register_sale_process_page', ()=>{  
+    cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down process
+    cy.get("div[class='sub-menu collapse show'] li:nth-child(1) a:nth-child(1) span:nth-child(1)").click({force:true}) // pos sale process page
+    //open outlet and register 
+    cy.get('#myTab > :nth-child(1) > .nav-link').contains('Lhr Store')
+    cy.get(".outlet_register_id.cash_register_box[data-register='1']").should('have.text','Cash Register 1').click({force:true})
+    cy.get('#open_amount').type('0')
+    cy.get('.horizontal-form > .input-group > .input-group-btn > .btn').click({force:true}) 
+  })
+  Cypress.Commands.add('close_register', ()=>{
+    cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down processq  p
+    cy.wait(3000)
+    cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").click({force:true}) // open register page
+           //close register
+    cy.get('#close_register').click() //close register button
+    cy.get('.sweet-alert').contains("Just a reminder... If any discrepancies, don't forget to adjust actual counted box before closing the register.")
+    cy.window().then((win) => {
+        cy.stub(win, 'open').as('windowOpen');
+        });
+        cy.get("body > div.sweet-alert.showSweetAlert.visible > div.sa-button-container > div > button")
+        .click({ force: true })
+        .window()
+        .its('open')
+        .should('not.be.called');
+        cy.reload();
+        cy.go(-2)
+  })
 
 
   

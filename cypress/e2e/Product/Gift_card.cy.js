@@ -6,55 +6,27 @@ describe('Gift_card',()=>{
          //open product page
         cy.get(generateUniqueCode).as('generate_Unique_Code')
     });
-    // afterEach(()=>{
-    //     cy.get('.w-30').click({force:true});
-    //     cy.get('[href="https://qadarjs.quix365.com/en/admin/logout"]').click({force:true});
-    // });
-    it('open_outlet(register) and verify that gift card is shown on "sale process page"', ()=>{
-        cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()
-        //cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click()
+    afterEach(()=>{
+        cy.get('.w-30').click({force:true});
+        cy.get('[href="https://qadarjs.quix365.com/en/admin/logout"]').click({force:true});
+    });
+    it('acivate gift card', ()=>{
+        cy.get('.nav > :nth-child(3) > .dropdown-toggle').click() //product_module
         cy.get('li.show > .dropdown-menu > :nth-child(5) > .sub_link').click() // gift_card button
         cy.get('.col-sm-4 > .btn').should('have.text','Activate Gift Cards').click() // activate button of gift_card
         cy.get('.sweet-alert').contains('Activate gift card feature?')
-        //cy.wait(5000)
-        cy.get('.confirm').click({timeout: 5000})
+        cy.wait(3000)
+        cy.get('.confirm').click()
         cy.log('Activate gift card feature is enabled')
     })
     it('Open register  through sale_process module' , ()=>{
-       cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down processq  
-       cy.wait(3000)
-       //cy.get("body > div:nth-child(3)( > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1) > span:nth-child(1)").click({force:true}) // open register
-       cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").click({force:true}) // open register page
-       
-       //open outlet and register 
-       cy.get('#myTab > :nth-child(1) > .nav-link').contains('Lhr Store')
-       cy.get(".outlet_register_id.cash_register_box[data-register='1']").should('have.text','Cash Register 1').click({force:true})
-       cy.get('.input-group > .form-control').clear().type('0')
-       cy.get('.input-group-btn > .btn').click({force:true}) //open button
-       
-       //close register
-       cy.get('#close_register').click() //close register button
-       cy.get('.sweet-alert').contains("Just a reminder... If any discrepancies, don't forget to adjust actual counted box before closing the register.")
-       cy.window().then((win) => {
-        cy.stub(win, 'open').as('windowOpen');
-       });
-       cy.get("body > div.sweet-alert.showSweetAlert.visible > div.sa-button-container > div > button")
-       .click({ force: true })
-       .window()
-       .its('open')
-       .should('not.be.called');
-       cy.reload();
-       cy.go(-2)
+      cy.open_outlet_register() //call generic fuction
 
-       //sale process page (add card)
-       //cy.get("div[class='sub-menu collapse show'] li:nth-child(1) a:nth-child(1) span:nth-child(1)").click({force:true}) // pos sale process page 
+      cy.close_register() //call generic fuction
               
     });
-    it('Add (buy) gift card through procress sale page ', ()=>{
-        cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down process
-        cy.get("div[class='sub-menu collapse show'] li:nth-child(1) a:nth-child(1) span:nth-child(1)").click({force:true}) // pos sale process page
-        //cy.get('#\31  > .whitebox-modal > .row > .col-4 > label > .outlet_register_id').click({force:true}) 
-        cy.get(".outlet_register_id.cash_register_box[data-register='1']").should('have.text','Cash Register 1').click({force:true}) //again open register 
+    it('purchase (buy) gift card through procress sale page ', ()=>{
+        cy.open_outlet_register_sale_process_page() //call generic fuction
 
         cy.get('#enableDivbuttons > .btn-default').click() // add gift card button
         cy.get('.modal-body > .whitebox-modal').contains('Gift Card Number')
@@ -86,9 +58,9 @@ describe('Gift_card',()=>{
            .should('not.be.called');
            cy.get('.confirm').click({ force: true })
         cy.get('#newsale > .modal-dialog > .modal-content > .modal-header > .close > .material-icons').click() // cancel opening propmt
-        cy.go(-1)
+        cy.close_register() //call generic fuction
     })
-    it('buy product with gift card', ()=>{
+    it('Buy product through gift card', ()=>{
         //add product
         cy.get('.nav > :nth-child(3) > .dropdown-toggle').click()
         cy.get('li.show > .dropdown-menu > :nth-child(1) > .sub_link').click()
@@ -128,26 +100,21 @@ describe('Gift_card',()=>{
                 DATA_2.custom_field,
                 DATA_2.product_cost
             );
-            //  Save the product.
-            cy.get('.button-group > .btn-primary').click(); 
-            
-            // cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down process
-            // cy.get("div[class='sub-menu collapse show'] li:nth-child(1) a:nth-child(1) span:nth-child(1)").click({force:true}) // pos sale process page
-            // cy.get(".outlet_register_id.cash_register_box[data-register='1']").should('have.text','Cash Register 1').click({force:true}) //again open register 
-            cy.open_sale_process_page()  //generic function
-            cy.get('#_search_the_product')
-            .type(uniqueProductName)
-            .focus() // Ensure the input field is focused
-            .type('{downarrow}{enter}'); // Use arrow keys to navigate the dropdown and press Enter to select
-                     //add checkout button
-            cy.wait(3000)         
+            cy.get('.button-group > .btn-primary').click(); //  Save the product.
+             //generic function
+            cy.open_sale_process_page()
+            cy.open_outlet_register_sale_process_page() //call generic fuction  
+            cy.wait(3000)
+            cy.get('#_search_the_product').type(uniqueProductName,'{timeout:3000}')
+            cy.get('.selected_list_item')
+            .contains(uniqueProductName) // Locate the specific item in the dropdown
+            .click(); // Click on the found item  
+            cy.wait(3000)       
             cy.get('#btn_checkout').click() 
             cy.get(':nth-child(7) > .col-md-9 > .row > :nth-child(4) > .btn').click() //payment through gift_card
             cy.get('.col-sm-9 > .form-float > .controls > label').type('1234')
-            //cy.get('#gift_card_number')
             cy.get('#div_gift_card_number').contains('Enter Valid Gift Card number')// assertation
             cy.get('#gift_card_number').clear().type(generateUniqueCode)
-            //cy.get('.col-sm-9 > .form-float > .controls > label')
             cy.get('#disable_gift_cart').click() // chagre gift card button
             //cy.get(':nth-child(2) > #cash_button').click() // payment thriugh cash button
             //cy.get('.sweet-alert').contains("You want to proceed payment through Cash !") // assertation
@@ -162,7 +129,7 @@ describe('Gift_card',()=>{
             cy.get('#disable_gift_cart').click() // charge gift card button
             cy.get('.confirm').click({ force: true })
             cy.get('#newsale > .modal-dialog > .modal-content > .modal-header > .close > .material-icons').click() // cancel opening propmt
-        //   //cy.go(-1)
+            cy.close_register() //call generic fuction     
         });
     })
     it('open gift card page and verify payment is dedicted through this g_card',()=>{
@@ -173,10 +140,10 @@ describe('Gift_card',()=>{
         cy.get('a.gift_card')
         .contains(generateUniqueCode.toString()) // Assuming generateUniqueCode is the text content
         .click();
-        //deactivate gift card button
-        cy.get('.col-sm-6 > .counter_active').click();
+        // gift card details page cancellation button
+        cy.get('#gift_card_history > .modal-dialog > .modal-content > .modal-header > .close').click();
    });
-   it.only('deactivate gift card module and verify button  on sale process page',()=>{
+   it('deactivate gift card module and verify button  on sale process page',()=>{
     cy.get('.nav > :nth-child(3) > .dropdown-toggle').as('select_product_dropdown').click()
     cy.get('li.show > .dropdown-menu > :nth-child(5) > .sub_link').click() // gift_card button
     //deactivate gift card button
@@ -187,7 +154,4 @@ describe('Gift_card',()=>{
     cy.open_sale_process_page() // call generic function
     cy.log('there is no gift card button')
   });
-
-        
-
 })
