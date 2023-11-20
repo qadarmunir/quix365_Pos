@@ -100,9 +100,11 @@ describe('Gift_card',()=>{
                 DATA_2.custom_field,
                 DATA_2.product_cost
             );
-            cy.get('.button-group > .btn-primary').click(); //  Save the product.
+            cy.get('.button-group > .btn-primary').click({timeout:3000}); //  Save the product.
+            cy.wait(3000)
              //generic function
-            cy.open_sale_process_page()
+            //cy.open_sale_process_page()
+            cy.go(-1)
             cy.open_outlet_register_sale_process_page() //call generic fuction  
             cy.wait(3000)
             cy.get('#_search_the_product').type(uniqueProductName,'{timeout:3000}')
@@ -154,4 +156,7 @@ describe('Gift_card',()=>{
     cy.open_sale_process_page() // call generic function
     cy.log('there is no gift card button')
   });
+  // it('test',() => {
+  //   cy.open_outlet_register_sale_process_page() //call generic fuction  
+  // })
 })

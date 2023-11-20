@@ -249,6 +249,7 @@ Cypress.Commands.add('open_sale_process_page', () => {
   Cypress.Commands.add('open_outlet_register_sale_process_page', ()=>{  
     cy.get("body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)").trigger('mouseover').click({timeout:3000}) // open sale drop_down process
     cy.get("div[class='sub-menu collapse show'] li:nth-child(1) a:nth-child(1) span:nth-child(1)").click({force:true}) // pos sale process page
+    //body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)
     //open outlet and register 
     cy.get('#myTab > :nth-child(1) > .nav-link').contains('Lhr Store')
     cy.get(".outlet_register_id.cash_register_box[data-register='1']").should('have.text','Cash Register 1').click({force:true})
