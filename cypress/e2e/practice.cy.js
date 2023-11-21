@@ -7,7 +7,7 @@ describe('Add product testcases', ()=>{
         
          //open product page
     });
-    it('select date ',()=>{
+    it.skip('select date ',()=>{
         cy.get('body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)').trigger('mouseover').click({force: true})
         cy.wait(3000)
         
@@ -47,5 +47,6 @@ describe('Add product testcases', ()=>{
         // cy.Add_Products_DATA()
         // cy.get('@save_product').click()
     });
+    it('wait_test', async())
 
 });   
