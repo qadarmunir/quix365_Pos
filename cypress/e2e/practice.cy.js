@@ -7,9 +7,9 @@ describe('Add product testcases', ()=>{
         
          //open product page
     });
-    it.skip('select date ',()=>{
-        cy.get('body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)').trigger('mouseover').click({force: true})
-        cy.wait(3000)
+    it('select date ',async()=>{
+       await cy.get('body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > a:nth-child(1)').trigger('mouseover').click({force: true})
+        //cy.wait(3000)
         
         cy.get('body > div:nth-child(3) > div:nth-child(2) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3) > div:nth-child(2) > ul:nth-child(1) > li:nth-child(4) > a:nth-child(1) > span:nth-child(1)').click({force: true})
         cy.get('.module-actions > .btn').click() // add quotation module
@@ -47,6 +47,8 @@ describe('Add product testcases', ()=>{
         // cy.Add_Products_DATA()
         // cy.get('@save_product').click()
     });
-    it('wait_test', async())
+    // it('wait_test', async()=>{
+
+    // })
 
 });   
