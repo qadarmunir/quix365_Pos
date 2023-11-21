@@ -1,5 +1,5 @@
 const { defineConfig } = require("cypress");
-const cyAwaitPreprocessor = require('cypress-await/src/preprocessor')
+//const cyAwaitPreprocessor = require('cypress-await/src/preprocessor')
 
 module.exports = defineConfig({
   reporter: 'cypress-mochawesome-reporter',
@@ -9,7 +9,7 @@ module.exports = defineConfig({
     testIsolation : false,
     setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
-      on('file:preprocessor', cyAwaitPreprocessor())
+      //on('file:preprocessor', cyAwaitPreprocessor())
       // implement node event listeners here
     },
   },
